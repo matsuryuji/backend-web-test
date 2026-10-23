@@ -58,19 +58,22 @@ tests/
 - **presentation** traduz HTTP para casos de uso e erros de domínio para status codes.
 - **main** é o único lugar que conhece todas as camadas.
 
-### Mapeamento de erros
+## Endpoints
 
-| Erro de domínio   | Status HTTP |
-| ----------------- | ----------- |
-| `ValidationError` | 400         |
-| `NotFoundError`   | 404         |
-| `ConflictError`   | 409         |
-| Outros            | 500         |
+### Automóveis
 
-## Roadmap
+| Método   | Rota        | Descrição                                       | Sucesso |
+| -------- | ----------- | ----------------------------------------------- | ------- |
+| `POST`   | `/cars`     | Cadastra um automóvel                           | 201     |
+| `GET`    | `/cars`     | Lista automóveis (filtros `color` e `brand`)    | 200     |
+| `GET`    | `/cars/:id` | Recupera um automóvel pelo id                   | 200     |
+| `PUT`    | `/cars/:id` | Atualiza um automóvel (todos os campos)         | 200     |
+| `DELETE` | `/cars/:id` | Exclui um automóvel                             | 204     |
 
-- [x] **Sprint 0**: setup do projeto, estrutura Clean Architecture, tratamento de erros, health check
-- [ ] **Sprint 1**: cadastro de automóveis (CRUD e filtro por cor e marca)
-- [ ] **Sprint 2**: cadastro de motoristas (CRUD e filtro por nome)
-- [ ] **Sprint 3**: utilização de automóvel (iniciar, finalizar, listar e regras de exclusividade)
-- [ ] **Sprint 4**: documentação da API, decisões de projeto e acabamento
+```bash
+curl -X POST http://localhost:3000/cars \
+  -H "Content-Type: application/json" \
+  -d '{"plate": "ABC1D23", "color": "Preto", "brand": "Fiat"}'
+
+curl "http://localhost:3000/cars?color=preto&brand=fiat"
+```
