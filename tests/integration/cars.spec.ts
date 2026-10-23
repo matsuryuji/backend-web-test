@@ -57,6 +57,13 @@ describe('Cars API', () => {
     });
   });
 
+  it('returns 400 when the body is missing', async () => {
+    const response = await request(app).post('/cars');
+
+    expect(response.status).toBe(400);
+    expect(response.body.details).toEqual(['plate is required', 'color is required', 'brand is required']);
+  });
+
   it('returns 400 for a repeated query parameter', async () => {
     const response = await request(app).get('/cars?color=preto&color=branco');
 

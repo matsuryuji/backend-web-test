@@ -7,6 +7,8 @@ WebAPI para controlar a utilização dos automóveis de uma empresa: cadastro de
 - Node.js 20+ e TypeScript
 - Express
 - Jest + ts-jest + Supertest
+- Swagger UI (OpenAPI 3)
+- ESLint + Prettier
 - Persistência em memória
 
 ## Como executar
@@ -22,6 +24,12 @@ A API sobe em `http://localhost:3000` (a porta pode ser alterada pela variável 
 curl http://localhost:3000/health
 ```
 
+### Documentação da API
+
+Com a aplicação rodando, a documentação interativa (Swagger UI) fica em [http://localhost:3000/docs](http://localhost:3000/docs), e o documento OpenAPI em `http://localhost:3000/docs/openapi.json`.
+
+O arquivo [requests.http](requests.http) tem todas as requisições prontas para a extensão REST Client do VS Code. Elas reaproveitam os ids criados nas requisições anteriores.
+
 ### Build de produção
 
 ```bash
@@ -35,6 +43,18 @@ npm start
 npm test
 npm run test:coverage
 ```
+
+O relatório de cobertura é gerado em `coverage/lcov-report/index.html`.
+
+### Qualidade de código
+
+```bash
+npm run lint
+npm run format:check
+npm run typecheck
+```
+
+O GitHub Actions ([ci.yml](.github/workflows/ci.yml)) roda lint, formatação, typecheck, testes com cobertura e build a cada push na `main` e em pull requests.
 
 ## Arquitetura
 
@@ -62,13 +82,13 @@ tests/
 
 ### Automóveis
 
-| Método   | Rota        | Descrição                                       | Sucesso |
-| -------- | ----------- | ----------------------------------------------- | ------- |
-| `POST`   | `/cars`     | Cadastra um automóvel                           | 201     |
-| `GET`    | `/cars`     | Lista automóveis (filtros `color` e `brand`)    | 200     |
-| `GET`    | `/cars/:id` | Recupera um automóvel pelo id                   | 200     |
-| `PUT`    | `/cars/:id` | Atualiza um automóvel (todos os campos)         | 200     |
-| `DELETE` | `/cars/:id` | Exclui um automóvel                             | 204     |
+| Método   | Rota        | Descrição                                    | Sucesso |
+| -------- | ----------- | -------------------------------------------- | ------- |
+| `POST`   | `/cars`     | Cadastra um automóvel                        | 201     |
+| `GET`    | `/cars`     | Lista automóveis (filtros `color` e `brand`) | 200     |
+| `GET`    | `/cars/:id` | Recupera um automóvel pelo id                | 200     |
+| `PUT`    | `/cars/:id` | Atualiza um automóvel (todos os campos)      | 200     |
+| `DELETE` | `/cars/:id` | Exclui um automóvel                          | 204     |
 
 ```bash
 curl -X POST http://localhost:3000/cars \
@@ -80,13 +100,13 @@ curl "http://localhost:3000/cars?color=preto&brand=fiat"
 
 ### Motoristas
 
-| Método   | Rota           | Descrição                                     | Sucesso |
-| -------- | -------------- | --------------------------------------------- | ------- |
-| `POST`   | `/drivers`     | Cadastra um motorista                         | 201     |
+| Método   | Rota           | Descrição                                       | Sucesso |
+| -------- | -------------- | ----------------------------------------------- | ------- |
+| `POST`   | `/drivers`     | Cadastra um motorista                           | 201     |
 | `GET`    | `/drivers`     | Lista motoristas (filtro `name`, busca parcial) | 200     |
-| `GET`    | `/drivers/:id` | Recupera um motorista pelo id                 | 200     |
-| `PUT`    | `/drivers/:id` | Atualiza um motorista                         | 200     |
-| `DELETE` | `/drivers/:id` | Exclui um motorista                           | 204     |
+| `GET`    | `/drivers/:id` | Recupera um motorista pelo id                   | 200     |
+| `PUT`    | `/drivers/:id` | Atualiza um motorista                           | 200     |
+| `DELETE` | `/drivers/:id` | Exclui um motorista                             | 204     |
 
 ```bash
 curl -X POST http://localhost:3000/drivers \
@@ -98,11 +118,11 @@ curl "http://localhost:3000/drivers?name=joao"
 
 ### Utilização de automóveis
 
-| Método  | Rota                      | Descrição                                               | Sucesso |
-| ------- | ------------------------- | ------------------------------------------------------- | ------- |
-| `POST`  | `/car-usages`             | Inicia a utilização de um automóvel por um motorista    | 201     |
-| `PATCH` | `/car-usages/:id/finish`  | Finaliza a utilização                                   | 200     |
-| `GET`   | `/car-usages`             | Lista as utilizações com motorista e automóvel          | 200     |
+| Método  | Rota                     | Descrição                                            | Sucesso |
+| ------- | ------------------------ | ---------------------------------------------------- | ------- |
+| `POST`  | `/car-usages`            | Inicia a utilização de um automóvel por um motorista | 201     |
+| `PATCH` | `/car-usages/:id/finish` | Finaliza a utilização                                | 200     |
+| `GET`   | `/car-usages`            | Lista as utilizações com motorista e automóvel       | 200     |
 
 `startDate` e `endDate` são opcionais (formato ISO 8601). Quando não são enviados, é usada a data atual.
 

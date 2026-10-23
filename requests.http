@@ -1,0 +1,74 @@
+@baseUrl = http://localhost:3000
+
+### Health check
+GET {{baseUrl}}/health
+
+### Cadastrar automóvel
+# @name createCar
+POST {{baseUrl}}/cars
+Content-Type: application/json
+
+{
+  "plate": "ABC1D23",
+  "color": "Preto",
+  "brand": "Fiat"
+}
+
+### Listar automóveis filtrando por cor e marca
+GET {{baseUrl}}/cars?color=preto&brand=fiat
+
+### Recuperar automóvel
+GET {{baseUrl}}/cars/{{createCar.response.body.id}}
+
+### Atualizar automóvel
+PUT {{baseUrl}}/cars/{{createCar.response.body.id}}
+Content-Type: application/json
+
+{
+  "plate": "ABC1D23",
+  "color": "Branco",
+  "brand": "Fiat"
+}
+
+### Cadastrar motorista
+# @name createDriver
+POST {{baseUrl}}/drivers
+Content-Type: application/json
+
+{
+  "name": "João da Silva"
+}
+
+### Listar motoristas filtrando por nome
+GET {{baseUrl}}/drivers?name=joao
+
+### Recuperar motorista
+GET {{baseUrl}}/drivers/{{createDriver.response.body.id}}
+
+### Atualizar motorista
+PUT {{baseUrl}}/drivers/{{createDriver.response.body.id}}
+Content-Type: application/json
+
+{
+  "name": "João Pedro da Silva"
+}
+
+### Iniciar utilização
+# @name startUsage
+POST {{baseUrl}}/car-usages
+Content-Type: application/json
+
+{
+  "carId": "{{createCar.response.body.id}}",
+  "driverId": "{{createDriver.response.body.id}}",
+  "reason": "Visita ao cliente"
+}
+
+### Listar utilizações
+GET {{baseUrl}}/car-usages
+
+### Finalizar utilização
+PATCH {{baseUrl}}/car-usages/{{startUsage.response.body.id}}/finish
+Content-Type: application/json
+
+{}

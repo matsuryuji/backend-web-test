@@ -17,7 +17,7 @@ export class CarUsageController {
   constructor(private readonly useCases: CarUsageUseCases) {}
 
   start = async (req: Request, res: Response): Promise<void> => {
-    const { carId, driverId, reason, startDate } = req.body ?? {};
+    const { carId, driverId, reason, startDate } = req.body;
     const details = await this.useCases.startCarUsage.execute({
       carId,
       driverId,
@@ -29,7 +29,7 @@ export class CarUsageController {
   };
 
   finish = async (req: Request, res: Response): Promise<void> => {
-    const { endDate } = req.body ?? {};
+    const { endDate } = req.body;
     const details = await this.useCases.finishCarUsage.execute(req.params.id, {
       endDate: optionalDate(endDate, 'endDate'),
     });

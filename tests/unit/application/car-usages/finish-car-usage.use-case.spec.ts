@@ -41,9 +41,9 @@ describe('FinishCarUsageUseCase', () => {
   });
 
   it('rejects an end date before the start date', async () => {
-    await expect(
-      finishCarUsage.execute('usage-1', { endDate: new Date('2026-10-19T08:00:00.000Z') }),
-    ).rejects.toThrow(ValidationError);
+    await expect(finishCarUsage.execute('usage-1', { endDate: new Date('2026-10-19T08:00:00.000Z') })).rejects.toThrow(
+      ValidationError,
+    );
     expect((await scenario.carUsageRepository.findById('usage-1'))?.isActive).toBe(true);
   });
 

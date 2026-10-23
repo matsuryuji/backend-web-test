@@ -21,14 +21,14 @@ export class CarController {
   constructor(private readonly useCases: CarUseCases) {}
 
   create = async (req: Request, res: Response): Promise<void> => {
-    const { plate, color, brand } = req.body ?? {};
+    const { plate, color, brand } = req.body;
     const car = await this.useCases.createCar.execute({ plate, color, brand });
 
     res.status(201).json(toCarResponse(car));
   };
 
   update = async (req: Request, res: Response): Promise<void> => {
-    const { plate, color, brand } = req.body ?? {};
+    const { plate, color, brand } = req.body;
     const car = await this.useCases.updateCar.execute(req.params.id, { plate, color, brand });
 
     res.json(toCarResponse(car));

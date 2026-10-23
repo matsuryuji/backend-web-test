@@ -1,5 +1,9 @@
 function normalizeForSearch(text: string): string {
-  return text.normalize('NFD').replace(/\p{Diacritic}/gu, '').trim().toLowerCase();
+  return text
+    .normalize('NFD')
+    .replace(/\p{Diacritic}/gu, '')
+    .trim()
+    .toLowerCase();
 }
 
 export function matchesIgnoringCase(value: string, expected?: string): boolean {

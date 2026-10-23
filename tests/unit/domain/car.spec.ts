@@ -26,7 +26,9 @@ describe('Car', () => {
   });
 
   it('rejects missing fields listing every problem', () => {
-    const error = captureError(() => Car.create('car-1', { plate: '', color: '  ', brand: undefined as unknown as string }));
+    const error = captureError(() =>
+      Car.create('car-1', { plate: '', color: '  ', brand: undefined as unknown as string }),
+    );
 
     expect(error).toBeInstanceOf(ValidationError);
     expect(error.details).toEqual(['plate is required', 'color is required', 'brand is required']);

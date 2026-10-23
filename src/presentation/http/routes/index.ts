@@ -4,6 +4,7 @@ import { CarController } from '../controllers/car.controller';
 import { DriverController } from '../controllers/driver.controller';
 import { createCarUsageRoutes } from './car-usage.routes';
 import { createCarRoutes } from './car.routes';
+import { docsRoutes } from './docs.routes';
 import { createDriverRoutes } from './driver.routes';
 import { healthRoutes } from './health.routes';
 
@@ -17,6 +18,7 @@ export function createRoutes({ carController, driverController, carUsageControll
   const routes = Router();
 
   routes.use('/health', healthRoutes);
+  routes.use('/docs', docsRoutes);
   routes.use('/cars', createCarRoutes(carController));
   routes.use('/drivers', createDriverRoutes(driverController));
   routes.use('/car-usages', createCarUsageRoutes(carUsageController));

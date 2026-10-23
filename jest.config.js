@@ -5,5 +5,8 @@ module.exports = {
   roots: ['<rootDir>/tests'],
   collectCoverageFrom: ['src/**/*.ts', '!src/main/server.ts'],
   coverageDirectory: 'coverage',
+  coverageThreshold: {
+    global: { statements: 95, branches: 90, functions: 95, lines: 95 },
+  },
   clearMocks: true,
 };

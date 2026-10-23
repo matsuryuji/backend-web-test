@@ -21,14 +21,14 @@ export class DriverController {
   constructor(private readonly useCases: DriverUseCases) {}
 
   create = async (req: Request, res: Response): Promise<void> => {
-    const { name } = req.body ?? {};
+    const { name } = req.body;
     const driver = await this.useCases.createDriver.execute({ name });
 
     res.status(201).json(toDriverResponse(driver));
   };
 
   update = async (req: Request, res: Response): Promise<void> => {
-    const { name } = req.body ?? {};
+    const { name } = req.body;
     const driver = await this.useCases.updateDriver.execute(req.params.id, { name });
 
     res.json(toDriverResponse(driver));

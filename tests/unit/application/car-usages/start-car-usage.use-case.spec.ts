@@ -42,7 +42,12 @@ describe('StartCarUsageUseCase', () => {
   it('uses the informed start date', async () => {
     const startDate = new Date('2026-10-19T14:30:00.000Z');
 
-    const { carUsage } = await startCarUsage.execute({ carId: 'car-1', driverId: 'driver-1', reason: 'Visita', startDate });
+    const { carUsage } = await startCarUsage.execute({
+      carId: 'car-1',
+      driverId: 'driver-1',
+      reason: 'Visita',
+      startDate,
+    });
 
     expect(carUsage.startDate).toEqual(startDate);
   });

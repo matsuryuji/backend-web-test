@@ -58,7 +58,9 @@ describe('Car usages API', () => {
     const finished = await request(app).patch(`/car-usages/${started.body.id}/finish`);
 
     expect(new Date(started.body.startDate).getTime()).toBeGreaterThanOrEqual(before);
-    expect(new Date(finished.body.endDate).getTime()).toBeGreaterThanOrEqual(new Date(started.body.startDate).getTime());
+    expect(new Date(finished.body.endDate).getTime()).toBeGreaterThanOrEqual(
+      new Date(started.body.startDate).getTime(),
+    );
   });
 
   it('returns 409 when the car is already in use', async () => {
