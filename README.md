@@ -77,3 +77,21 @@ curl -X POST http://localhost:3000/cars \
 
 curl "http://localhost:3000/cars?color=preto&brand=fiat"
 ```
+
+### Motoristas
+
+| Método   | Rota           | Descrição                                     | Sucesso |
+| -------- | -------------- | --------------------------------------------- | ------- |
+| `POST`   | `/drivers`     | Cadastra um motorista                         | 201     |
+| `GET`    | `/drivers`     | Lista motoristas (filtro `name`, busca parcial) | 200     |
+| `GET`    | `/drivers/:id` | Recupera um motorista pelo id                 | 200     |
+| `PUT`    | `/drivers/:id` | Atualiza um motorista                         | 200     |
+| `DELETE` | `/drivers/:id` | Exclui um motorista                           | 204     |
+
+```bash
+curl -X POST http://localhost:3000/drivers \
+  -H "Content-Type: application/json" \
+  -d '{"name": "João da Silva"}'
+
+curl "http://localhost:3000/drivers?name=joao"
+```
