@@ -95,3 +95,42 @@ curl -X POST http://localhost:3000/drivers \
 
 curl "http://localhost:3000/drivers?name=joao"
 ```
+
+### Utilização de automóveis
+
+| Método  | Rota                      | Descrição                                               | Sucesso |
+| ------- | ------------------------- | ------------------------------------------------------- | ------- |
+| `POST`  | `/car-usages`             | Inicia a utilização de um automóvel por um motorista    | 201     |
+| `PATCH` | `/car-usages/:id/finish`  | Finaliza a utilização                                   | 200     |
+| `GET`   | `/car-usages`             | Lista as utilizações com motorista e automóvel          | 200     |
+
+`startDate` e `endDate` são opcionais (formato ISO 8601). Quando não são enviados, é usada a data atual.
+
+```bash
+curl -X POST http://localhost:3000/car-usages \
+  -H "Content-Type: application/json" \
+  -d '{"carId": "<id do automóvel>", "driverId": "<id do motorista>", "reason": "Visita ao cliente"}'
+
+curl -X PATCH http://localhost:3000/car-usages/<id da utilização>/finish
+
+curl http://localhost:3000/car-usages
+```
+
+Exemplo de resposta:
+
+```json
+{
+  "id": "6f1c...",
+  "reason": "Visita ao cliente",
+  "startDate": "2026-10-20T08:00:00.000Z",
+  "endDate": null,
+  "driver": { "id": "a3b2...", "name": "João da Silva" },
+  "car": { "id": "9d4e...", "plate": "ABC1D23", "color": "Preto", "brand": "Fiat" }
+}
+```
+
+Regras:
+
+- Um automóvel só pode ser utilizado por um motorista por vez, e um motorista só pode utilizar um automóvel por vez (`409`).
+- A data de término não pode ser anterior à data de início (`400`), e uma utilização finalizada não pode ser finalizada de novo (`409`).
+- Automóveis e motoristas que possuem registros de utilização não podem ser excluídos (`409`).
